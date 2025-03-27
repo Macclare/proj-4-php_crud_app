@@ -8,21 +8,27 @@ pipeline {
             }
         }
 
-        stage('Install PHP and MySQL') {
-            steps {
-                sh '''
-                sudo apt-get update
-                sudo apt-get install -y php php-mysqli mysql-client
-                '''
-            }
-        }
-
         stage('Run PHP Script') {
             steps {
                 sh '''
                 php -r "echo 'PHP is installed and working!\n';"
                 php index.php
                 '''
+            }
+        }
+        stage('Deploy to Staging') {
+            steps {
+                sh 'ansible-playbook -i /etc/ansible/hosts php-playbook.yml'
+            }
+        }
+        
+        stage('Manual Promotion to Production') {
+            input {
+                message "Deploy to Production?"
+                ok "Yes, Deploy"
+            }
+            steps {
+                sh 'ansible-playbook -i /etc/ansible/hosts php-playbook.yml'
             }
         }
     }
