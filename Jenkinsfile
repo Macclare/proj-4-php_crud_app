@@ -26,25 +26,24 @@ pipeline {
         stage('Package Application') {
             steps {
                 sh '''
-                tar -czvf php-crud-app.tar.gz .
+                tar --exclude=php-crud-app.tar.gz -czvf php-crud-app.tar.gz *
+                ls -lh php-crud-app.tar.gz
                 '''
+            }
+        }
+
+        stage('Verify File Before Upload') {
+            steps {
+                sh 'ls -lh'
             }
         }
 
         stage('Upload to Nexus') {
             steps {
-                nexusArtifactUploader(
-                    nexusVersion: 'nexus3',
-                    protocol: 'http',
-                    nexusUrl: "http://16.171.235.3:8081/nexus",
-                    groupId: 'com.macclare.php',
-                    version: '1.0.0',
-                    repository: "php-artifacts",
-                    credentialsId: "nexus-credentials",
-                    artifacts: [
-                        [artifactId: 'php-crud-app', classifier: '', file: 'php-crud-app.tar.gz', type: 'tar.gz']
-                    ]
-                )
+                sh '''
+                curl -u "admin:admin123" --upload-file php-crud-app.tar.gz \
+                "http://16.171.235.3:8081/nexus/repository/php-artifacts/php-crud-app.tar.gz"
+                '''
             }
         }
 
