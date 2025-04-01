@@ -5,6 +5,8 @@ pipeline {
         NEXUS_URL = 'http://13.48.45.237:8081/nexus'
         NEXUS_REPO = 'php-artifacts'
         NEXUS_CREDENTIALS_ID = 'nexus-credentials'
+        SONAR_AUTH_TOKEN = 'sonar-token'
+        SONAR_URL = 'http://http://51.21.255.105:9000'
     }
 
     stages {
@@ -47,9 +49,17 @@ pipeline {
             }
         }
         stage('SonarQube Analysis') {
-            def scannerHome = tool 'sonar';
-            withSonarQubeEnv() {
-                  sh "${scannerHome}/bin/sonar-scanner"
+            steps {
+                script {
+                    withSonarQubeEnvironmentalAnalysis('sonar-id')
+                    sh '''
+                    sonar-scanner \
+                    -Dsonar.projectKey=php-app \
+                    -Dsonar.sources=. \
+                    -Dsonar.host.url=${SONAR_URL}
+                    -Dsonar.login=${SONAR_AUTH_TOKEN} 
+                    '''
+                }
             }
         }
 
