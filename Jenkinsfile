@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        NEXUS_URL = 'http://16.171.235.3:8081/nexus'
+        NEXUS_URL = 'http://13.48.45.237:8081/nexus'
         NEXUS_REPO = 'php-artifacts'
         NEXUS_CREDENTIALS_ID = 'nexus-credentials'
     }
@@ -26,8 +26,8 @@ pipeline {
         stage('Package Application') {
             steps {
                 sh '''
-                tar --exclude=php-crud-app.tar.gz -czvf php-crud-app.tar.gz *
-                ls -lh php-crud-app.tar.gz
+                tar --exclude=proj-4-php_crud_app.tar.gz -czvf proj-4-php_crud_app.tar.gz *
+                ls -lh proj-4-php_crud_app.tar.gz
                 '''
             }
         }
@@ -41,8 +41,8 @@ pipeline {
         stage('Upload to Nexus') {
             steps {
                 sh '''
-                curl -u "admin:admin123" --upload-file php-crud-app.tar.gz \
-                "http://16.171.235.3:8081/nexus/repository/php-artifacts/php-crud-app.tar.gz"
+                curl -u "admin:admin123" --upload-file proj-4-php_crud_app.tar.gz \
+                "http://13.48.45.237:8081/nexus/repository/php-artifacts/proj-4-php_crud_app.tar.gz"
                 '''
             }
         }
