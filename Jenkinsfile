@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        NEXUS_URL = 'http://13.48.45.237:8081/nexus'
+        NEXUS_URL = 'http://16.170.2.219:8081/nexus'
         NEXUS_REPO = 'php-artifacts'
         NEXUS_CREDENTIALS_ID = 'nexus-credentials'
         SONAR_AUTH_TOKEN = 'sonar-token'
@@ -15,7 +15,7 @@ pipeline {
                 git branch: "dev", url: 'https://github.com/Macclare/proj-4-php_crud_app.git'
             }
         }
-        
+
         stage('Check PHP Extensions') {
             steps {
                 sh 'php -m | grep mysqli || echo "mysqli extension not found!"'
@@ -50,14 +50,14 @@ pipeline {
             steps {
                 sh '''
                 curl -u "admin:admin123" --upload-file proj-4-php_crud_app.tar.gz \
-                "http://13.48.45.237:8081/nexus/repository/php-artifacts/proj-4-php_crud_app.tar.gz"
+                "http://16.170.2.219:8081/nexus/repository/php-artifacts/proj-4-php_crud_app.tar.gz"
                 '''
             }
         }
         stage('SonarQube Analysis') {
             steps {
                 script {
-                    withSonarQubeEnvironmentalAnalysis('sonar-id')
+                    withSonarQubeEnvironmentalAnalysis('sonar-token')
                     sh '''
                     sonar-scanner \
                     -Dsonar.projectKey=php-app \
