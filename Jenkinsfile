@@ -48,12 +48,11 @@ pipeline {
 
         stage('Upload to Nexus') {
             steps {
-                withCredentials([usernamePassword(credentialsId: 'nexus-credentials', usernameVariable: 'NEXUS_USER', passwordVariable: 'NEXUS_PASS')]) {
-                    sh '''
-                    curl -u "$NEXUS_USER:$NEXUS_PASS" --upload-file proj-4-php_crud_app.tar.gz \
-                    "${NEXUS_URL}/content/repositories/1/${NEXUS_REPO}/proj-4-php_crud_app.tar.gz"
-                    '''
-                }
+               
+                sh '''
+                curl -u "admin:admin123" --upload-file proj-4-php_crud_app.tar.gz \
+                "http://16.170.2.219:8081/nexus/repository/php-artifacts/proj-4-php_crud_app.tar.gz"
+                '''
             }
         }
         stage('SonarQube Analysis') {
