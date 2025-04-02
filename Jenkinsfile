@@ -15,6 +15,12 @@ pipeline {
                 git branch: "dev", url: 'https://github.com/Macclare/proj-4-php_crud_app.git'
             }
         }
+        
+        stage('Check PHP Extensions') {
+            steps {
+                sh 'php -m | grep mysqli || echo "mysqli extension not found!"'
+            }
+        }
 
         stage('Run PHP Script') {
             steps {
