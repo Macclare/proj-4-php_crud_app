@@ -10,10 +10,6 @@ pipeline {
         TAR_FILE_NAME = 'proj-4-php_crud_app.tar.gz'
     }
 
-    tools {
-        sonarRunner 'SonarQube Scanner'
-    }
-
     stages {
         stage('Checkout Code') {
             steps {
