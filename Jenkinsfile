@@ -5,13 +5,9 @@ pipeline {
         NEXUS_URL = 'http://16.170.2.219:8081/nexus'
         NEXUS_REPO = 'releases'
         NEXUS_CREDENTIALS_ID = 'nexus-credentials'
-        SONAR_AUTH_TOKEN = 'sonar-token'
+        SONAR_AUTH_TOKEN = 'sqp_66fcc805220256396fe53ce2e73a8d6e7e75d3b6'
         SONAR_URL = 'http://51.21.214.30:9000'
         TAR_FILE_NAME = 'proj-4-php_crud_app.tar.gz'
-    }
-
-    tools {
-        sonarScanner 'sonar-token'
     }
 
     stages {
@@ -66,14 +62,12 @@ pipeline {
         stage('SonarQube Analysis') {
             steps {
                 script {
-                    def scannerHome = tool 'sonar-token'
-                    withSonarQubeEnv('sonar-token')
                     sh '''
                     sonar-scanner \
                     -Dsonar.projectKey=php-app \
                     -Dsonar.sources=. \
-                    -Dsonar.host.url=${SONAR_URL}
-                    -Dsonar.login=${SONAR_AUTH_TOKEN} 
+                    -Dsonar.host.url=http://51.21.214.30:9000 
+                    -Dsonar.login=sqp_66fcc805220256396fe53ce2e73a8d6e7e75d3b6 
                     '''
                 }
             }
