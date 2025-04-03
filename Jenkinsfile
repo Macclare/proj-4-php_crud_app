@@ -10,6 +10,10 @@ pipeline {
         TAR_FILE_NAME = 'proj-4-php_crud_app.tar.gz'
     }
 
+    tools {
+        sonarScanner 'sonar-token'
+    }
+
     stages {
         stage('Checkout Code') {
             steps {
@@ -62,6 +66,7 @@ pipeline {
         stage('SonarQube Analysis') {
             steps {
                 script {
+                    def scannerHome = tool 'sonar-token'
                     withSonarQubeEnv('sonar-token')
                     sh '''
                     sonar-scanner \
