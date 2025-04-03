@@ -53,7 +53,7 @@ pipeline {
                     withCredentials([usernamePassword(credentialsId: env.NEXUS_CREDENTIALS_ID, usernameVariable: 'NEXUS_USER', passwordVariable: 'NEXUS_PASS')]) {
                         sh """
                         curl -u "$NEXUS_USER:$NEXUS_PASS" --upload-file ${TAR_FILE_NAME} \
-                        "${NEXUS_URL}/nexus/content/repositories/${NEXUS_REPO}/${TAR_FILE_NAME}"
+                        "${NEXUS_URL}/content/repositories/${NEXUS_REPO}/${TAR_FILE_NAME}"
                         """
                     }
                 }
