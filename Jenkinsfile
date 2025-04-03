@@ -3,10 +3,11 @@ pipeline {
 
     environment {
         NEXUS_URL = 'http://16.170.2.219:8081/nexus'
-        NEXUS_REPO = 'php-artifacts'
+        NEXUS_REPO = 'releases'
         NEXUS_CREDENTIALS_ID = 'nexus-credentials'
         SONAR_AUTH_TOKEN = 'sonar-token'
         SONAR_URL = 'http://http://51.21.255.105:9000'
+        TAR_FILE_NAME = 'proj-4-php_crud_app.tar.gz'
     }
 
     stages {
@@ -46,13 +47,16 @@ pipeline {
             }
         }
 
-        stage('Upload to Nexus') {
+         stage('Upload to Nexus') {
             steps {
-               
-                sh '''
-                curl -u "admin:admin123" --upload-file proj-4-php_crud_app.tar.gz \
-                "http://16.170.2.219:8081/nexus/repository/php-artifacts/proj-4-php_crud_app.tar.gz"
-                '''
+                script {
+                    withCredentials([usernamePassword(credentialsId: env.NEXUS_CREDENTIALS_ID, usernameVariable: 'NEXUS_USER', passwordVariable: 'NEXUS_PASS')]) {
+                        sh """
+                        curl -u "$NEXUS_USER:$NEXUS_PASS" --upload-file ${TAR_FILE_NAME} \
+                        "${NEXUS_URL}/nexus/content/repositories/${NEXUS_REPO}/${TAR_FILE_NAME}"
+                        """
+                    }
+                }
             }
         }
         stage('SonarQube Analysis') {
