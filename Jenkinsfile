@@ -6,7 +6,7 @@ pipeline {
         NEXUS_REPO = 'releases'
         NEXUS_CREDENTIALS_ID = 'nexus-credentials'
         SONAR_AUTH_TOKEN = 'sonar-token'
-        SONAR_URL = 'http://http://51.21.255.105:9000'
+        SONAR_URL = 'http://51.21.214.30:9000'
         TAR_FILE_NAME = 'proj-4-php_crud_app.tar.gz'
     }
 
@@ -62,7 +62,7 @@ pipeline {
         stage('SonarQube Analysis') {
             steps {
                 script {
-                    withSonarQubeEnvironmentalAnalysis('sonar-token')
+                    withSonarQubeEnv('sonar-token')
                     sh '''
                     sonar-scanner \
                     -Dsonar.projectKey=php-app \
