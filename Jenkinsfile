@@ -9,9 +9,9 @@ pipeline {
         SONAR_URL = 'http://51.21.214.30:9000'
         TAR_FILE_NAME = 'proj-4-php_crud_app.tar.gz'
     }
-    
+
     tools {
-        sonarScanner 'Sonar-token'
+        sonarScanner 'sonar-token'
     }
 
     stages {
@@ -66,7 +66,7 @@ pipeline {
         stage('SonarQube Analysis') {
             steps {
                 script {
-                    def scannerHome = tool 'SonarScanner'
+                    def scannerHome = tool 'sonar-token'
                     withSonarQubeEnv('sonar-token')
                     sh '''
                     sonar-scanner \
