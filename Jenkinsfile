@@ -10,10 +10,6 @@ pipeline {
         TAR_FILE_NAME = 'proj-4-php_crud_app.tar.gz'
     }
 
-    tools {
-        'hudson.plugins.sonar.SonarRunnerInstallation' 'SonarQubeScanner'
-    }
-
     stages {
         stage('Checkout Code') {
             steps {
@@ -68,13 +64,13 @@ pipeline {
                 script {
                     withSonarQubeEnv('SonarQube_Scanner') { 
                         def scannerHome = tool name: 'SonarQubeScanner'
-                        sh '''
+                        sh """
                         sonar-scanner \
                         -Dsonar.projectKey=php-app \
                         -Dsonar.sources=. \
-                        -Dsonar.host.url=${SONAR_URL} \
-                        -Dsonar.login=${SONAR_AUTH_TOKEN}
-                        '''
+                        -Dsonar.host.url=$SONAR_URL \
+                        -Dsonar.login=$SONAR_AUTH_TOKEN
+                        """
                     }
                 }
             }
