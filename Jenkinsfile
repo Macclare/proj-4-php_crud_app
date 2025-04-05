@@ -90,8 +90,8 @@ pipeline {
                 message "Deploy to Production?"
                 ok "Yes, Deploy"
             }
-            steps {
-                sh 'ansible-playbook -i /etc/ansible/hosts php-playbook.yml'
+            sshagent(credentials: ['ansible-key']) {
+                sh 'ssh -o StrictHostKeyChecking=no ubuntu@$ANSIBLE_SERVER_IP "ansible-playbook -i /etc/ansible/hosts php-playbook.yml"'
             }
         }
     }
