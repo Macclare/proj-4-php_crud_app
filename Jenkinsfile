@@ -78,9 +78,8 @@ pipeline {
 
         stage('Deploy to Staging') {
             steps {
-                sshagent(credentials: ['ansible-key']) {
+               
                     sh 'ansible-playbook -i /etc/ansible/hosts php-playbook.yml'
-                }
             }
         }
         
