@@ -65,11 +65,11 @@ pipeline {
                     withSonarQubeEnv('SonarQube_Scanner') { 
                         def scannerHome = tool name: 'SonarQubeScanner'
                         sh """
-                        sonar-scanner \
-                        -Dsonar.projectKey=php-app \
-                        -Dsonar.sources=. \
-                        -Dsonar.host.url=$SONAR_URL \
-                        -Dsonar.login=$SONAR_AUTH_TOKEN
+                        ${scannerHome}/bin/sonar-scanner \
+                          -Dsonar.projectKey=php-app \
+                          -Dsonar.sources=. \
+                          -Dsonar.host.url=$SONAR_URL \
+                          -Dsonar.login=$SONAR_AUTH_TOKEN
                         """
                     }
                 }
