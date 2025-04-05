@@ -8,6 +8,7 @@ pipeline {
         SONAR_AUTH_TOKEN = 'sonar-token'
         SONAR_URL = 'http://51.21.214.30:9000'
         TAR_FILE_NAME = 'proj-4-php_crud_app.tar.gz'
+        ANSIBLE_SERVER_IP = '16.170.139.151'
     }
 
     stages {
@@ -78,8 +79,9 @@ pipeline {
 
         stage('Deploy to Staging') {
             steps {
-               
-                    sh 'ansible-playbook -i /etc/ansible/hosts php-playbook.yml'
+                sshagent(credentials: ['ansible-key']) {
+                    sh 'ssh -o StrictHostKeyChecking=no ubuntu@$ANSIBLE_SERVER_IP "ansible-playbook -i /etc/ansible/hosts php-playbook.yml"'
+                }
             }
         }
         
