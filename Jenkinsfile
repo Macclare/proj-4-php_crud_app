@@ -7,7 +7,7 @@ pipeline {
         NEXUS_CREDENTIALS_ID = 'nexus-credentials'
         SONAR_AUTH_TOKEN = 'sonar-token'
         SONAR_URL = 'http://51.21.214.30:9000'
-        TAR_FILE_NAME = 'proj-4-php_crud_app.tar.gz'
+        TAR_FILE_NAME ='proj-4-php_crud_app.tar.gz'
         ANSIBLE_SERVER_IP = '16.170.139.151'
     }
 
@@ -35,9 +35,13 @@ pipeline {
 
         stage('Package Application') {
             steps {
+                script {
+                    def version = "1.0"
+                    env.TAR_FILE_NAME = "proj-4-php_crud_app-${version}.tar.gz"
+                }
                 sh '''
-                tar --exclude=proj-4-php_crud_app.tar.gz -czvf proj-4-php_crud_app.tar.gz *
-                ls -lh proj-4-php_crud_app.tar.gz
+                tar --exclude=proj-4-php_crud_app*.tar.gz -czvf ${TAR_FILE_NAME} *
+                ls -lh ${TAR_FILE_NAME}
                 '''
             }
         }
