@@ -14,6 +14,7 @@ $sql = "SELECT * FROM students";
 $result = $conn->query($sql);
 
 echo "<h1>PHP CRUD App - Almost a DevOps Engineer!</h1>";
+echo "<h1>This Project was built and Deployed by Angela Mbakwe and Jane Collins!</h1>";
 echo "<table border='1'><tr><th>ID</th><th>Name</th><th>Email</th></tr>";
 while($row = $result->fetch_assoc()) {
   echo "<tr><td>{$row['id']}</td><td>{$row['name']}</td><td>{$row['email']}</td></tr>";
